@@ -52,7 +52,9 @@ class Application(models.Model):
     submitted_at = models.DateTimeField(null=True, blank=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
     review_started = models.DateTimeField(null=True, blank=True)
-    reviewer_comments = models.TextField(max_length=60, blank=True, default="")
+    reviewer_comments = models.TextField(
+        max_length=60, null=True, blank=True, default=""
+    )
     company_name = models.CharField(max_length=60, null=True, blank=True)
 
     ## logic rules
@@ -85,11 +87,15 @@ class Application(models.Model):
         self.submitted_at = datetime.datetime.now()
         self.save()
 
-    def start_review(self):
+    def start_review(self, comments: str | None = None):
         if not self.can_be_reviewed():
             raise ValueError("Application cannot be reviewed in its current status")
         self.status = Status.UNDER_REVIEW
         self.review_started = datetime.datetime.now()
+        # if comments.strip() == "":
+        #     raise ValueError("Reviewer comments cannot be empty when starting review.")
+        # allows reviews to be started without comments
+        self.reviewer_comments = comments if comments else ""
         # self.reviewed_at = datetime.datetime.now()
         self.save()
 
@@ -98,15 +104,20 @@ class Application(models.Model):
             raise ValueError(
                 "Application cannot receive decision in its current status"
             )
+        if comments.strip() == "":
+            raise ValueError("Reviewer comments cannot be empty when rejecting.")
         self.status = Status.REJECTED
         self.reviewer_comments = comments
         self.save()
 
-    def approve(self, comments: str):
+    # approval doesn't require comments
+    def approve(self, comments: str | None = None):
         if not self.can_receive_decision():
             raise ValueError(
                 "Application cannot receive decision in its current status"
             )
+        # if comments is not None and comments.strip() == "":
+        #     self.reviewer_comments = ""
         self.status = Status.APPROVED
         self.reviewer_comments = comments
         self.save()
@@ -115,6 +126,10 @@ class Application(models.Model):
         if not self.can_receive_decision():
             raise ValueError(
                 "Application cannot receive decision in its current status"
+            )
+        if comments.strip() == "":
+            raise ValueError(
+                "Reviewer comments cannot be empty when requesting more information."
             )
         self.status = Status.NEEDS_MORE_INFORMATION
         self.reviewer_comments = comments

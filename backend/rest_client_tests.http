@@ -1,5 +1,5 @@
 @base_url = http://127.0.0.1:8000/api
-@tracking_number = REPLACE_WITH_TRACKING_UUID
+@tracking_number = 6bbaf687-9eb8-47a8-9be1-5d8b3df1b8d9
 
 ### Check API root
 GET {{base_url}}/
@@ -28,7 +28,7 @@ Accept: application/json
 # After you run the "Create draft application" request, copy the response's
 # `tracking_number` value into the `@tracking_number` variable at the top
 # of this file (replace REPLACE_WITH_TRACKING_UUID) and re-run this request.
-GET {{base_url}}/applications/{{tracking_number}}
+GET {{base_url}}/applications/6bbaf687-9eb8-47a8-9be1-5d8b3df1b8d9
 Accept: application/json
 
 ### Update application (PATCH)
@@ -39,7 +39,8 @@ Content-Type: application/json
   "applicant_name": "Updated Name",
   "applicant_email": "updated@example.com",
   "application_type": "RECORDATION",
-  "company_name": "UpdatedCo"
+  "company_name": "UpdatedCo",
+  "status": "Accepted"
 }
 
 ### Submit application

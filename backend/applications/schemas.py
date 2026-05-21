@@ -1,4 +1,5 @@
 from datetime import datetime
+from re import S
 from uuid import UUID
 
 from ninja import Schema
@@ -39,7 +40,7 @@ class UpdateApplicationIn(Schema):
 
 
 class ReviewApplicationIn(Schema):
-    reviewer_comments: str | None = None
+    reviewer_comments: str
 
 
 class DecisionIn(Schema):
@@ -49,3 +50,15 @@ class DecisionIn(Schema):
         Status.NEEDS_MORE_INFORMATION,
     ]
     reviewer_comments: str
+
+
+class PatchSchema(Schema):
+    applicant_name: str | None = None
+    applicant_email: EmailStr | None = None
+    application_type: ApplicationType | None = None
+    company_name: str | None = None
+
+
+class FinalReview(Schema):
+    reviewer_comments: str
+    status: Status
