@@ -27,7 +27,10 @@ class Application(models.Model):
     )
     applicant_name = models.CharField(max_length=60, null=False, blank=False)
     applicant_email = models.EmailField(
-        max_length=60, null=False, blank=False, db_index=True
+        max_length=60,
+        null=False,
+        blank=False,
+        db_index=True,
     )
     application_type = models.CharField(
         max_length=50,

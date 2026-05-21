@@ -1,0 +1,85 @@
+@base_url = http://127.0.0.1:8000/api
+@tracking_number = REPLACE_WITH_TRACKING_UUID
+
+### Check API root
+GET {{base_url}}/
+Accept: application/json
+
+### Health check
+GET {{base_url}}/health
+Accept: application/json
+
+### Create draft application
+POST {{base_url}}/applications/draft
+Content-Type: application/json
+
+{
+  "applicant_name": "Test User",
+  "applicant_email": "test@example.com",
+  "application_type": "RECORDATION",
+  "company_name": "TestCo"
+}
+
+### List all applications
+GET {{base_url}}/applications
+Accept: application/json
+
+### Get application by tracking number
+# After you run the "Create draft application" request, copy the response's
+# `tracking_number` value into the `@tracking_number` variable at the top
+# of this file (replace REPLACE_WITH_TRACKING_UUID) and re-run this request.
+GET {{base_url}}/applications/{{tracking_number}}
+Accept: application/json
+
+### Update application (PATCH)
+PATCH {{base_url}}/applications/{{tracking_number}}
+Content-Type: application/json
+
+{
+  "applicant_name": "Updated Name",
+  "applicant_email": "updated@example.com",
+  "application_type": "RECORDATION",
+  "company_name": "UpdatedCo"
+}
+
+### Submit application
+POST {{base_url}}/applications/{{tracking_number}}/submit
+
+### Review application (set status to UNDER_REVIEW)
+# The API expects the full `ApplicationOut` shape; provide minimal timestamps.
+PUT {{base_url}}/applications/{{tracking_number}}/review
+Content-Type: application/json
+
+{
+  "tracking_number": "{{tracking_number}}",
+  "applicant_name": "Updated Name",
+  "applicant_email": "updated@example.com",
+  "application_type": "RECORDATION",
+  "status": "UNDER_REVIEW",
+  "created_at": "2020-01-01T00:00:00Z",
+  "updated_at": "2020-01-01T00:00:00Z",
+  "submitted_at": "2020-01-01T00:00:00Z",
+  "reviewed_at": null,
+  "reviewer_comments": "Starting review"
+}
+
+### Make decision (approve)
+PUT {{base_url}}/applications/{{tracking_number}}/decision
+Content-Type: application/json
+
+{
+  "tracking_number": "{{tracking_number}}",
+  "applicant_name": "Updated Name",
+  "applicant_email": "updated@example.com",
+  "application_type": "RECORDATION",
+  "status": "APPROVED",
+  "created_at": "2020-01-01T00:00:00Z",
+  "updated_at": "2020-01-01T00:00:00Z",
+  "submitted_at": "2020-01-01T00:00:00Z",
+  "reviewed_at": "2020-01-01T00:00:00Z",
+  "reviewer_comments": "Looks good"
+}
+
+### List applications by status (APPROVED)
+GET {{base_url}}/applications/status/APPROVED
+Accept: application/json

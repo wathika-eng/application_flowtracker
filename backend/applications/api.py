@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 from django.db import connection
 from ninja import NinjaAPI
@@ -38,7 +39,7 @@ def create_draft_application(request, payload: CreateDraftApplicationIn):
         application_type=payload.application_type,
         company_name=payload.company_name,
     )
-    return application
+    return 201, application
 
 
 @router.get("/applications", response=list[ApplicationOut])
@@ -50,7 +51,7 @@ def list_applications(request):
 @router.get(
     "/applications/{tracking_number}", response={200: ApplicationOut, 404: ErrorSchema}
 )
-def get_application(request, tracking_number: str):
+def get_application(request, tracking_number: uuid.UUID):
     try:
         application = Application.objects.get(tracking_number=tracking_number)
         return application
@@ -62,8 +63,9 @@ def get_application(request, tracking_number: str):
     "/applications/{tracking_number}", response={200: ApplicationOut, 404: ErrorSchema}
 )
 def update_application(
-    request, tracking_number: str, payload: CreateDraftApplicationIn
+    request, tracking_number: uuid.UUID, payload: CreateDraftApplicationIn
 ):
+
     try:
         application = Application.objects.get(tracking_number=tracking_number)
         if not application.can_be_editted():
