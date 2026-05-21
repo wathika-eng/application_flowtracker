@@ -1,9 +1,10 @@
 import datetime
 
+from django.db import connection
 from ninja import NinjaAPI
 
-from backend.backend.models import Application, Status
-from backend.backend.schemas import ApplicationOut, CreateDraftApplicationIn
+from .models import Application, Status
+from .schemas import ApplicationOut, CreateDraftApplicationIn, ErrorSchema
 
 router = NinjaAPI()
 
@@ -13,11 +14,23 @@ def test(request):
     return {"message": "API is up", "time": datetime.datetime.now().isoformat()}
 
 
-# @router.get("/health")
-# def health():
+@router.get("/health")
+def health(request):
+    start = datetime.datetime.now()
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT 1")
+        cursor.fetchone()
+
+    latency = (datetime.datetime.now() - start).total_seconds()
+
+    return {
+        "status": "ok",
+        "db_latency_seconds": latency,
+    }
 
 
-@router.post("/applications/draft", response={201: ApplicationOut})
+@router.post("/applications/draft", response={201: ApplicationOut, 400: ErrorSchema})
 def create_draft_application(request, payload: CreateDraftApplicationIn):
     application = Application.objects.create(
         applicant_name=payload.applicant_name,
@@ -34,7 +47,9 @@ def list_applications(request):
     return applications
 
 
-@router.get("/applications/{tracking_number}", response=ApplicationOut)
+@router.get(
+    "/applications/{tracking_number}", response={200: ApplicationOut, 404: ErrorSchema}
+)
 def get_application(request, tracking_number: str):
     try:
         application = Application.objects.get(tracking_number=tracking_number)
@@ -43,7 +58,9 @@ def get_application(request, tracking_number: str):
         return {"error": "Application not found"}, 404
 
 
-@router.patch("/applications/{tracking_number}", response=ApplicationOut)
+@router.patch(
+    "/applications/{tracking_number}", response={200: ApplicationOut, 404: ErrorSchema}
+)
 def update_application(
     request, tracking_number: str, payload: CreateDraftApplicationIn
 ):
@@ -61,7 +78,10 @@ def update_application(
         return {"error": "Application not found"}, 404
 
 
-@router.post("/applications/{tracking_number}/submit", response=ApplicationOut)
+@router.post(
+    "/applications/{tracking_number}/submit",
+    response={200: ApplicationOut, 404: ErrorSchema},
+)
 def submit_application(request, tracking_number: str):
     try:
         application = Application.objects.get(tracking_number=tracking_number)
@@ -77,7 +97,10 @@ def submit_application(request, tracking_number: str):
         return {"error": "Application not found"}, 404
 
 
-@router.put("/applications/{tracking_number}/review", response=ApplicationOut)
+@router.put(
+    "/applications/{tracking_number}/review",
+    response={200: ApplicationOut, 404: ErrorSchema, 400: ErrorSchema},
+)
 def review_application(request, tracking_number: str, payload: ApplicationOut):
     try:
         application = Application.objects.get(tracking_number=tracking_number)
@@ -86,14 +109,18 @@ def review_application(request, tracking_number: str, payload: ApplicationOut):
                 "error": "Application cannot be reviewed in its current status"
             }, 400
         application.status = payload.status
-        application.reviewer_comments = payload.reviewer_comments
+        if payload.reviewer_comments is not None:
+            application.reviewer_comments = payload.reviewer_comments
         application.save()
         return application
     except Application.DoesNotExist:
         return {"error": "Application not found"}, 404
 
 
-@router.put("/applications/{tracking_number}/decision", response=ApplicationOut)
+@router.put(
+    "/applications/{tracking_number}/decision",
+    response={200: ApplicationOut, 404: ErrorSchema, 400: ErrorSchema},
+)
 def make_decision(request, tracking_number: str, payload: ApplicationOut):
     try:
         application = Application.objects.get(tracking_number=tracking_number)
@@ -102,8 +129,19 @@ def make_decision(request, tracking_number: str, payload: ApplicationOut):
                 "error": "Application cannot receive decision in its current status"
             }, 400
         application.status = payload.status
-        application.reviewer_comments = payload.reviewer_comments
+        if payload.reviewer_comments is not None:
+            application.reviewer_comments = payload.reviewer_comments
+        else:
+            return {
+                "error": "Reviewer comments are required when making a decision"
+            }, 400
         application.save()
         return application
     except Application.DoesNotExist:
         return {"error": "Application not found"}, 404
+
+
+@router.get("/applications/status/{status}", response=list[ApplicationOut])
+def list_applications_by_status(request, status: Status):
+    applications = Application.objects.filter(status=status)
+    return applications

@@ -28,6 +28,9 @@ cp .env.example .env
 # update the .env file with your database credentials
 python manage.py migrate
 python manage.py runserver
+
+# docs
+http://localhost:8000/api/docs
 ```
 
 On the other terminal tab:
