@@ -51,7 +51,7 @@ export interface ReviewApplicationIn {
 
 export interface FinalReview {
   reviewer_comments: string
-  status: 'APPROVED' | 'REJECTED'
+  status: 'APPROVED' | 'REJECTED' | 'NEEDS_MORE_INFORMATION'
 }
 
 export interface ListParams {

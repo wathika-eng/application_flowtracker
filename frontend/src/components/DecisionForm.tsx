@@ -3,6 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import Toast from './Toast'
 
+type Decision = 'APPROVED' | 'REJECTED' | 'NEEDS_MORE_INFORMATION'
+
+const DECISIONS: { value: Decision; label: string }[] = [
+  { value: 'APPROVED', label: 'Approve' },
+  { value: 'NEEDS_MORE_INFORMATION', label: 'Request More Information' },
+  { value: 'REJECTED', label: 'Reject' },
+]
+
 export default function DecisionForm() {
   const { tracking_number } = useParams()
   const navigate = useNavigate()
@@ -11,7 +19,7 @@ export default function DecisionForm() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
-  const [decision, setDecision] = useState<'APPROVED' | 'REJECTED' | null>(null)
+  const [decision, setDecision] = useState<Decision | null>(null)
 
   async function handleSubmit() {
     if (!tracking_number || !decision) return
@@ -22,9 +30,13 @@ export default function DecisionForm() {
         reviewer_comments: comments,
         status: decision,
       })
-      setToast(
-        decision === 'APPROVED' ? 'Application approved' : 'Application rejected'
-      )
+      const msg =
+        decision === 'APPROVED'
+          ? 'Application approved'
+          : decision === 'REJECTED'
+          ? 'Application rejected'
+          : 'Requested more information'
+      setToast(msg)
       setTimeout(() => navigate(`/applications/${tracking_number}`), 300)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to submit decision')
@@ -60,17 +72,20 @@ export default function DecisionForm() {
       <div className="ios-form-group" style={{ marginTop: 16 }}>
         <div className="ios-form-group-header">Decision</div>
         <div className="ios-field">
-          <label className="ios-field-label">Approve or Reject</label>
+          <label className="ios-field-label">Select outcome</label>
           <select
             className="ios-field-select"
             value={decision ?? ''}
-            onChange={(e) => setDecision(e.target.value as 'APPROVED' | 'REJECTED')}
+            onChange={(e) => setDecision(e.target.value as Decision)}
           >
             <option value="" disabled>
               Select a decision
             </option>
-            <option value="APPROVED">Approve</option>
-            <option value="REJECTED">Reject</option>
+            {DECISIONS.map((d) => (
+              <option key={d.value} value={d.value}>
+                {d.label}
+              </option>
+            ))}
           </select>
         </div>
         <div className="ios-field">

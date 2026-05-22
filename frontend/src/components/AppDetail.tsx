@@ -62,7 +62,7 @@ export default function AppDetail() {
 
   async function handleRequestInfo() {
     if (!tracking_number) return
-    navigate(`/applications/${tracking_number}/review`)
+    navigate(`/applications/${tracking_number}/decision`)
   }
 
   async function handleDecision() {
