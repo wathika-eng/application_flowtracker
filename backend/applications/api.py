@@ -181,3 +181,13 @@ def make_decision(request, tracking_number: uuid.UUID, payload: FinalReview):
         return application
     except Application.DoesNotExist:
         return 404, {"error": "Application not found"}
+
+
+@router.exception_handler(Exception)
+def global_exception_handler(request, exc):
+
+    return router.create_response(
+        request,
+        {"error": "Internal server error"},
+        status=500,
+    )

@@ -8,11 +8,12 @@ import type {
   ReviewApplicationIn,
 } from './types';
 
-if (process.env.NODE_ENV === 'development' && !process.env.BASE_URL) {
-  console.warn('BASE_URL is not set. Defaulting to http://localhost:8000');
+if (import.meta.env.DEV && !import.meta.env.VITE_BASE_URL) {
+  console.warn('VITE_BASE_URL is not set. Defaulting to http://localhost:8000/api');
 }
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
+const rawBaseUrl = import.meta.env.VITE_BASE_URL?.replace(/\/+$/, '') || 'http://localhost:8000';
+const BASE_URL = rawBaseUrl.endsWith('/api') ? rawBaseUrl : `${rawBaseUrl}/api`;
 
 export class ApiError extends Error {
   status: number;
@@ -44,6 +45,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 export const api = {
+  test: () => request<unknown>('/'),
+
   health: () => request<unknown>('/health'),
 
   listApplications: (params?: ListParams) => {

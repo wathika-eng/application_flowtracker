@@ -1,12 +1,10 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect
 
 
-# Create your views here.
-## default 404 handler
 def handler404(request, exception):
-    return {"error": "Not found"}, 404
+    return JsonResponse({"error": "Not found"}, status=404)
 
 
-## redirect root to api
 def handler_root(request):
     return redirect("/api/")

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from pickle import APPEND
 
 from dotenv import load_dotenv
 
@@ -72,7 +73,7 @@ CORS_ALLOW_METHODS = (
     "PUT",
 )
 ROOT_URLCONF = "backend.urls"
-
+APPEND_SLASH = True
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

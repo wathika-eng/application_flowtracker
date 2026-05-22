@@ -49,6 +49,8 @@ python manage.py runserver
 # or use uviconrn
 uvicorn backend.asgi:application --reload
 
+# the api uses rate limiting to prevent abuse and sqlite db for demo purposes
+
 # docs
 http://localhost:8000/api/docs
 # or use rest client to test the http calls
@@ -62,4 +64,13 @@ cd frontend
 # install bun or use npm or pnpm (curl -fsSL https://bun.com/install | bash)
 bun i
 bun run dev
+# open http://localhost:5173 in your browser
+# frontend follows https://lawsofux.com/ with minimalistic routing
 ```
+
+What can be improved:
+> Cache the  applications in redis Key-Value storage to reduce database calls.
+> Add auth with RBAC so as to track who editted what and prevent abuse
+> dockerize the app for ease of deployment and setup github actions CI/CD pipelines for automated testing and deployment.
+
+Joseph Wathika - <wathika02@gmail.com>

@@ -16,10 +16,13 @@ Including another URLconf
 """
 
 from applications.api import router
+from applications.views import handler404, handler_root
 from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", handler_root),
     path("api/", router.urls),
 ]
+handler404 = "applications.views.handler404"
