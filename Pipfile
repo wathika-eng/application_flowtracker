@@ -8,6 +8,7 @@ django-ninja = "*"
 python-dotenv = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 pydantic = {extras = ["email"], version = "*"}
+django-cors-headers = "*"
 
 [dev-packages]
 
