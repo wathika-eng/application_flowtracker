@@ -3,18 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { ApplicationOut, Status } from '../api/types'
 import { APPLICATION_TYPE_LABELS, STATUS_LABELS } from '../api/types'
+import { formatLocalDateTime } from '../api/utils'
 import Toast from './Toast'
-
-function formatDate(iso: string | null): string {
-  if (!iso) return '—'
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
 
 type Action =
   | { label: string; type: 'primary' | 'destructive' | 'default'; action: () => Promise<void>; visible: boolean }
@@ -228,19 +218,19 @@ export default function AppDetail() {
         <div className="ios-card-header">Timeline</div>
         <div className="ios-card-row">
           <span className="ios-card-row-label">Created</span>
-          <span className="ios-card-row-value">{formatDate(app.created_at)}</span>
+            <span className="ios-card-row-value">{formatLocalDateTime(app.created_at)}</span>
         </div>
         <div className="ios-card-row">
           <span className="ios-card-row-label">Submitted</span>
-          <span className="ios-card-row-value">{formatDate(app.submitted_at)}</span>
+          <span className="ios-card-row-value">{formatLocalDateTime(app.submitted_at)}</span>
         </div>
         <div className="ios-card-row">
           <span className="ios-card-row-label">Reviewed</span>
-          <span className="ios-card-row-value">{formatDate(app.reviewed_at)}</span>
+          <span className="ios-card-row-value">{formatLocalDateTime(app.reviewed_at)}</span>
         </div>
         <div className="ios-card-row">
           <span className="ios-card-row-label">Updated</span>
-          <span className="ios-card-row-value">{formatDate(app.updated_at)}</span>
+          <span className="ios-card-row-value">{formatLocalDateTime(app.updated_at)}</span>
         </div>
       </div>
 

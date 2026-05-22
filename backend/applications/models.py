@@ -83,7 +83,6 @@ class Application(models.Model):
         if not self.can_be_submitted():
             raise ValueError("Application cannot be submitted in its current status")
         self.status = Status.SUBMITTED
-        self.reviewed_at = datetime.datetime.now()
         self.submitted_at = datetime.datetime.now()
         self.save()
 

@@ -18,11 +18,185 @@
   --ios-text-secondary: #3a3a3c;
   --ios-text-tertiary: #8e8e93;
   --ios-separator: #c6c6c8;
+  --ios-nav-bg: rgba(249, 249, 249, 0.94);
   --ios-nav-height: 56px;
   --ios-safe-top: env(safe-area-inset-top, 0px);
   --ios-safe-bottom: env(safe-area-inset-bottom, 0px);
   --ios-radius: 12px;
   --ios-radius-lg: 16px;
+  --ios-content-max-width: 800px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-blue: #0a84ff;
+    --ios-blue-tap: #409cff;
+    --ios-red: #ff453a;
+    --ios-green: #30d158;
+    --ios-orange: #ff9f0a;
+    --ios-yellow: #ffd60a;
+    --ios-purple: #bf5af2;
+    --ios-gray: #8e8e93;
+    --ios-gray-2: #636366;
+    --ios-gray-3: #48484a;
+    --ios-gray-4: #3a3a3c;
+    --ios-gray-5: #2c2c2e;
+    --ios-gray-6: #1c1c1e;
+    --ios-bg: #000000;
+    --ios-card-bg: #1c1c1e;
+    --ios-text: #f5f5f7;
+    --ios-text-secondary: #ebebf0;
+    --ios-text-tertiary: #8e8e93;
+    --ios-separator: #38383a;
+    --ios-nav-bg: rgba(0, 0, 0, 0.94);
+  }
+
+  .ios-badge-draft {
+    background: var(--ios-gray-5);
+    color: var(--ios-text-secondary);
+  }
+
+  .ios-badge-submitted {
+    background: #1a3a6b;
+    color: #64b5f6;
+  }
+
+  .ios-badge-under_review {
+    background: #3d2e00;
+    color: #ffb74d;
+  }
+
+  .ios-badge-approved {
+    background: #1b3d1b;
+    color: #81c784;
+  }
+
+  .ios-badge-needs_more_information {
+    background: #3d1b1b;
+    color: #ef9a9a;
+  }
+
+  .ios-badge-rejected {
+    background: #3d1b1b;
+    color: #ef9a9a;
+  }
+
+  .ios-form-error {
+    background: #3d1b1b;
+  }
+
+  .ios-search-input {
+    background: var(--ios-gray-5);
+    color: var(--ios-text);
+  }
+
+  .ios-table th {
+    background: var(--ios-card-bg);
+  }
+
+  .ios-table tr:active {
+    background: var(--ios-gray-5);
+  }
+
+  .ios-segmented {
+    background: var(--ios-gray-5);
+  }
+
+  .ios-segment-active {
+    background: var(--ios-card-bg);
+  }
+
+  .ios-nav-btn:disabled {
+    color: var(--ios-gray-3);
+  }
+
+  .ios-page-btn {
+    background: var(--ios-card-bg);
+    border-color: var(--ios-gray-4);
+  }
+}
+
+.ios-dark {
+  --ios-blue: #0a84ff;
+  --ios-blue-tap: #409cff;
+  --ios-red: #ff453a;
+  --ios-green: #30d158;
+  --ios-orange: #ff9f0a;
+  --ios-yellow: #ffd60a;
+  --ios-purple: #bf5af2;
+  --ios-gray: #8e8e93;
+  --ios-gray-2: #636366;
+  --ios-gray-3: #48484a;
+  --ios-gray-4: #3a3a3c;
+  --ios-gray-5: #2c2c2e;
+  --ios-gray-6: #1c1c1e;
+  --ios-bg: #000000;
+  --ios-card-bg: #1c1c1e;
+  --ios-text: #f5f5f7;
+  --ios-text-secondary: #ebebf0;
+  --ios-text-tertiary: #8e8e93;
+  --ios-separator: #38383a;
+  --ios-nav-bg: rgba(0, 0, 0, 0.94);
+}
+
+.ios-dark .ios-badge-draft {
+  background: var(--ios-gray-5);
+  color: var(--ios-text-secondary);
+}
+
+.ios-dark .ios-badge-submitted {
+  background: #1a3a6b;
+  color: #64b5f6;
+}
+
+.ios-dark .ios-badge-under_review {
+  background: #3d2e00;
+  color: #ffb74d;
+}
+
+.ios-dark .ios-badge-approved {
+  background: #1b3d1b;
+  color: #81c784;
+}
+
+.ios-dark .ios-badge-needs_more_information {
+  background: #3d1b1b;
+  color: #ef9a9a;
+}
+
+.ios-dark .ios-badge-rejected {
+  background: #3d1b1b;
+  color: #ef9a9a;
+}
+
+.ios-dark .ios-form-error {
+  background: #3d1b1b;
+}
+
+.ios-dark .ios-search-input {
+  background: var(--ios-gray-5);
+  color: var(--ios-text);
+}
+
+.ios-dark .ios-table th {
+  background: var(--ios-card-bg);
+}
+
+.ios-dark .ios-table tr:active {
+  background: var(--ios-gray-5);
+}
+
+.ios-dark .ios-segmented {
+  background: var(--ios-gray-5);
+}
+
+.ios-dark .ios-segment-active {
+  background: var(--ios-card-bg);
+}
+
+.ios-dark .ios-page-btn {
+  background: var(--ios-card-bg);
+  border-color: var(--ios-gray-4);
 }
 
 * {
@@ -39,6 +213,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Content container for centering */
+.ios-container {
+  max-width: var(--ios-content-max-width);
+  margin: 0 auto;
 }
 
 /* iOS-style Nav Bar */
@@ -46,11 +227,12 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(249, 249, 249, 0.94);
+  background: var(--ios-nav-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 0.5px solid var(--ios-separator);
   padding-top: var(--ios-safe-top);
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .ios-nav-inner {
@@ -59,6 +241,8 @@ body {
   justify-content: space-between;
   height: var(--ios-nav-height);
   padding: 0 16px;
+  max-width: var(--ios-content-max-width);
+  margin: 0 auto;
 }
 
 .ios-nav-title {
@@ -402,6 +586,8 @@ body {
   border-radius: 8px;
   padding: 2px;
   margin: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .ios-segment {
@@ -417,6 +603,7 @@ body {
   background: none;
   border: none;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .ios-segment-active {
@@ -442,6 +629,7 @@ body {
   font-family: inherit;
   color: var(--ios-text);
   outline: none;
+  transition: background 0.2s;
 }
 
 .ios-search-input::placeholder {
@@ -717,11 +905,31 @@ body {
 }
 
 /* Responsive fine-tuning */
-@media (max-width: 400px) {
+@media (max-width: 860px) {
+  .ios-container {
+    max-width: 100%;
+  }
+
+  .ios-nav-inner {
+    max-width: 100%;
+  }
+
   .ios-list,
   .ios-card,
-  .ios-form-group {
-    margin: 8px;
-    border-radius: 10px;
+  .ios-form-group,
+  .ios-table-wrap {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .ios-segmented,
+  .ios-search {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .ios-pagination {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }

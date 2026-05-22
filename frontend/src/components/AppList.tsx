@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import type { ApplicationOut, Status } from '../api/types'
 import { APPLICATION_TYPE_LABELS, STATUS_LABELS } from '../api/types'
+import { formatLocalDate } from '../api/utils'
 
 const STATUS_FILTERS: (Status | 'ALL')[] = [
   'ALL',
@@ -15,15 +16,6 @@ const STATUS_FILTERS: (Status | 'ALL')[] = [
 ]
 
 const PAGE_SIZE = 10
-
-function formatDate(iso: string): string {
-  const d = new Date(iso)
-  return d.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
 
 function matchesSearch(app: ApplicationOut, q: string): boolean {
   if (!q) return true
@@ -163,7 +155,7 @@ export default function AppList() {
                       </span>
                     </td>
                     <td style={{ whiteSpace: 'nowrap', color: 'var(--ios-text-tertiary)', fontSize: 13 }}>
-                      {formatDate(app.created_at)}
+                      {formatLocalDate(app.created_at)}
                     </td>
                   </tr>
                 ))}
