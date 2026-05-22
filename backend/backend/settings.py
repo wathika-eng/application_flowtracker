@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
-from pickle import APPEND
 
 from dotenv import load_dotenv
 
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -62,7 +62,9 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://appflowtrack.vercel.app",
-    "https://appflowtrack-*-*-*-*-wathikaengs-projects.vercel.app",
+]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://appflowtrack-[a-z0-9-]+-wathikaengs-projects\.vercel\.app$",
 ]
 CORS_ALLOW_METHODS = (
     # "DELETE",
@@ -72,9 +74,18 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+
 CSRF_TRUSTED_ORIGINS = [
     "https://django-app-506915313256.africa-south1.run.app",
 ]
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 ROOT_URLCONF = "backend.urls"
 APPEND_SLASH = True
 TEMPLATES = [

@@ -13,6 +13,7 @@ pack build application-flowtracker   --builder heroku/builder:24
 docker run -p 8080:8080 application-flowtracker
 # deploy to gcloud run
 gcloud deploy source .
+# gcloud run deploy django-app   --source .   --region africa-south1   --allow-unauthenticated
 ```
 
 Test the Procfile:

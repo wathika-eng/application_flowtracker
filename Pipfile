@@ -9,6 +9,7 @@ python-dotenv = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 pydantic = {extras = ["email"], version = "*"}
 django-cors-headers = "*"
+whitenoise = "*"
 
 [dev-packages]
 
