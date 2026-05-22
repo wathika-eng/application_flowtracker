@@ -1,35 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 
-function getInitialDark(): boolean {
-  if (typeof window === 'undefined') return false
-  const stored = localStorage.getItem('flowtracker-dark')
-  const isDark = stored !== null ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches
-  document.documentElement.classList.toggle('ios-dark', isDark)
-  document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
-  return isDark
-}
-
 export default function Layout() {
   const navigate = useNavigate()
-  const [dark, setDark] = useState(getInitialDark)
+  const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return document.documentElement.classList.contains('ios-dark')
+  })
 
   useEffect(() => {
     localStorage.setItem('flowtracker-dark', String(dark))
     document.documentElement.classList.toggle('ios-dark', dark)
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
   }, [dark])
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    const handler = (e: MediaQueryListEvent) => {
-      if (localStorage.getItem('flowtracker-dark') === null) {
-        setDark(e.matches)
-      }
-    }
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
 
   function toggleDark() {
     setDark((prev) => !prev)

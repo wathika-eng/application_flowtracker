@@ -3,6 +3,7 @@ import uuid
 
 from django.db import IntegrityError, connection
 from ninja import NinjaAPI, Query
+from ninja.throttling import AnonRateThrottle
 
 from .models import Application, Status
 from .schemas import (
@@ -14,7 +15,7 @@ from .schemas import (
     ReviewApplicationIn,
 )
 
-router = NinjaAPI()
+router = NinjaAPI(throttle=AnonRateThrottle(rate="10/sec"))
 
 
 @router.get("/")
