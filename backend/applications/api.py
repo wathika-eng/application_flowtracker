@@ -15,7 +15,7 @@ from .schemas import (
     ReviewApplicationIn,
 )
 
-router = NinjaAPI(throttle=AnonRateThrottle(rate="10/sec"))
+router = NinjaAPI(throttle=AnonRateThrottle(rate="10/s"))
 
 
 @router.get("/")

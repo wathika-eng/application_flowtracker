@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --ios-blue: #007aff;
   --ios-blue-tap: #0056b3;
   --ios-red: #ff3b30;
@@ -28,6 +29,7 @@
 }
 
 .ios-dark {
+  color-scheme: dark;
   --ios-blue: #0a84ff;
   --ios-blue-tap: #409cff;
   --ios-red: #ff453a;
@@ -125,6 +127,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
   transition: background 0.2s, color 0.2s;
+}
+
+/* Make native form controls respect the active color scheme */
+* {
+  color-scheme: inherit;
 }
 
 /* Content container for centering */

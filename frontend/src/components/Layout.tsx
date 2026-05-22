@@ -11,7 +11,6 @@ export default function Layout() {
   useEffect(() => {
     localStorage.setItem('flowtracker-dark', String(dark))
     document.documentElement.classList.toggle('ios-dark', dark)
-    document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
   }, [dark])
 
   function toggleDark() {

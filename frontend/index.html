@@ -8,12 +8,7 @@
       (function() {
         var stored = localStorage.getItem('flowtracker-dark');
         var isDark = stored !== null ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (isDark) {
-          document.documentElement.classList.add('ios-dark');
-          document.documentElement.style.colorScheme = 'dark';
-        } else {
-          document.documentElement.style.colorScheme = 'light';
-        }
+        if (isDark) document.documentElement.classList.add('ios-dark');
       })();
     </script>
   </head>
