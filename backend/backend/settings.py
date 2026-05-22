@@ -62,7 +62,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://appflowtrack.vercel.app",
-    "https://appflowtrack-ljkfc7e5l-wathikaengs-projects.vercel.app",
+    "https://appflowtrack-*-*-*-*-wathikaengs-projects.vercel.app",
 ]
 CORS_ALLOW_METHODS = (
     # "DELETE",
@@ -72,6 +72,9 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+CSRF_TRUSTED_ORIGINS = [
+    "https://django-app-506915313256.africa-south1.run.app",
+]
 ROOT_URLCONF = "backend.urls"
 APPEND_SLASH = True
 TEMPLATES = [
@@ -138,3 +141,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
+}

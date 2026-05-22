@@ -55,6 +55,9 @@ uvicorn backend.asgi:application --reload
 http://localhost:8000/api/docs
 # or use rest client to test the http calls
 https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+# to view the sqlite db locally, use:
+https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer
 ```
 
 On the other terminal tab, setup the frontend:
@@ -72,5 +75,10 @@ What can be improved:
 > Cache the  applications in redis Key-Value storage to reduce database calls.
 > Add auth with RBAC so as to track who editted what and prevent abuse
 > dockerize the app for ease of deployment and setup github actions CI/CD pipelines for automated testing and deployment.
+
+Production URL:
+API -> <https://django-app-506915313256.africa-south1.run.app/api/>
+
+Frontend -> <https://appflowtrack.vercel.app>
 
 Joseph Wathika - <wathika02@gmail.com>

@@ -1,0 +1,2 @@
+# Procfile - Run migrations before starting the server
+web: python manage.py migrate --noinput && uvicorn backend.asgi:application --host 0.0.0.0 --port ${PORT:-8080}
