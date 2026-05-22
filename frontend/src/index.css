@@ -544,6 +544,24 @@ body {
   color: var(--ios-gray-3);
 }
 
+.ios-field:has(.ios-field-select) {
+  position: relative;
+}
+
+.ios-field:has(.ios-field-select)::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background: var(--ios-gray-2);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  pointer-events: none;
+  transition: background 0.2s;
+}
+
 .ios-field-select {
   font-size: 17px;
   color: var(--ios-text);
@@ -555,12 +573,8 @@ body {
   font-family: inherit;
   appearance: none;
   -webkit-appearance: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23aeaeb2'/%3E%3C/svg%3E") no-repeat right 8px center;
   padding-right: 28px;
-}
-
-.ios-field-select:focus {
-  color: var(--ios-blue);
+  transition: color 0.2s;
 }
 
 /* Error state */
