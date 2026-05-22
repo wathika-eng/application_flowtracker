@@ -58,7 +58,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://appflowtrack.vercel.app",
+    "https://appflowtrack-ljkfc7e5l-wathikaengs-projects.vercel.app",
+]
 CORS_ALLOW_METHODS = (
     # "DELETE",
     "GET",
